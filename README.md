@@ -29,7 +29,7 @@ Unsere Webseite ist dein persönliches Health-Hub. Hier findest du:
 
 ## **Das SwissSupplements-Wiki**  
 
-Unser **[GitHub Wiki](#)** ist offen für alle, die mehr wissen wollen – von Interessierten bis zu Investoren:  
+Unser **[[GitHub Wiki](https://github.com/bourb0n1412/SwissSupplements/wiki/Wiki)](#)** ist offen für alle, die mehr wissen wollen – von Interessierten bis zu Investoren:  
 - **Unsere Vision & Philosophie**: Warum SwissSupplements existiert  
 - **Wissenschaftlicher Hintergrund**: Studien, Quellen, Erklärungen zu Inhaltsstoffen  
 - **Produktstrategie**: Zielgruppen, Marktanalysen, Roadmap  
