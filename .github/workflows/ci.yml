@@ -9,74 +9,69 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      docker:
-        image: docker:20.10.7
-        options: --privileged
-
     strategy:
       matrix:
         service:
-          - shop
-          - about
-          - eureka
+          - shop-service
+          - info-service
+          - eureka-server
           - gateway
-          - recommend
+          - recommend-service
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Java for Shop/Eureka
-        if: matrix.service == 'shop' || matrix.service == 'eureka'
+      - name: Set up Java (for Spring Boot)
+        if: matrix.service == 'shop-service' || matrix.service == 'eureka-server'
         uses: actions/setup-java@v3
         with:
           java-version: "17"
           distribution: "temurin"
 
-      - name: Set up Node.js for About/Gateway
-        if: matrix.service == 'about' || matrix.service == 'gateway'
+      - name: Set up Node.js (for Node services)
+        if: matrix.service == 'info-service' || matrix.service == 'gateway'
         uses: actions/setup-node@v3
         with:
           node-version: "18"
 
-      - name: Set up Python for Recommend
-        if: matrix.service == 'recommend'
+      - name: Set up Python (for Flask)
+        if: matrix.service == 'recommend-service'
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
-      - name: Install & Start Shop (Spring Boot)
-        if: matrix.service == 'shop'
+      - name: Build and Run shop-service (Spring Boot)
+        if: matrix.service == 'shop-service'
         run: |
-          cd shop
+          cd shop-service
           ./mvnw install
           nohup ./mvnw spring-boot:run &
 
-      - name: Install & Start About (Node.js)
-        if: matrix.service == 'about'
+      - name: Build and Run info-service (Node.js)
+        if: matrix.service == 'info-service'
         run: |
-          cd about
+          cd info-service
           npm install
           nohup node index.js &
 
-      - name: Start Eureka Server
-        if: matrix.service == 'eureka'
+      - name: Build and Run eureka-server
+        if: matrix.service == 'eureka-server'
         run: |
-          cd eureka
+          cd eureka-server
           ./mvnw install
           nohup ./mvnw spring-boot:run &
 
-      - name: Install & Start Gateway (Node.js)
+      - name: Build and Run gateway (Node.js)
         if: matrix.service == 'gateway'
         run: |
           cd gateway
           npm install
           nohup node index.js &
 
-      - name: Install & Start Recommend (Flask)
-        if: matrix.service == 'recommend'
+      - name: Build and Run recommend-service (Flask)
+        if: matrix.service == 'recommend-service'
         run: |
-          cd recommend
+          cd recommend-service
           pip install -r requirements.txt
           nohup python recommend.py &
