@@ -85,5 +85,5 @@ jobs:
         if: matrix.service == 'recommend-service'
         run: |
           cd recommend-service
-          pip install -r requirements.txt
+          pip install flask requests flask-cors py_eureka_client
           nohup python recommend.py &
