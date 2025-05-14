@@ -22,54 +22,66 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Java (for Spring Boot)
+      # Java für Spring Boot Services
+      - name: Set up Java
         if: matrix.service == 'shop-service' || matrix.service == 'eureka-server'
         uses: actions/setup-java@v3
         with:
           java-version: "17"
           distribution: "temurin"
 
-      - name: Set up Node.js (for Node services)
+      # Node.js für Express Services
+      - name: Set up Node.js
         if: matrix.service == 'info-service' || matrix.service == 'gateway'
         uses: actions/setup-node@v3
         with:
           node-version: "18"
 
-      - name: Set up Python (for Flask)
+      # Python für Flask Service
+      - name: Set up Python
         if: matrix.service == 'recommend-service'
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
-      - name: Build and Run shop-service (Spring Boot)
+      # shop-service: Spring Boot
+      - name: Build and Run shop-service
         if: matrix.service == 'shop-service'
         run: |
           cd shop-service
+          chmod +x mvnw
           ./mvnw install
+          # ./mvnw test   # falls du Tests ausführen willst
           nohup ./mvnw spring-boot:run &
 
-      - name: Build and Run info-service (Node.js)
+      # info-service: Node.js
+      - name: Build and Run info-service
         if: matrix.service == 'info-service'
         run: |
           cd info-service
           npm install
+          # npm test  # optional
           nohup node index.js &
 
+      # eureka-server: Spring Boot
       - name: Build and Run eureka-server
         if: matrix.service == 'eureka-server'
         run: |
           cd eureka-server
+          chmod +x mvnw
           ./mvnw install
           nohup ./mvnw spring-boot:run &
 
-      - name: Build and Run gateway (Node.js)
+      # gateway: Node.js
+      - name: Build and Run gateway
         if: matrix.service == 'gateway'
         run: |
           cd gateway
           npm install
           nohup node index.js &
 
-      - name: Build and Run recommend-service (Flask)
+      # recommend-service: Flask
+      - name: Build and Run recommend-service
         if: matrix.service == 'recommend-service'
         run: |
           cd recommend-service
