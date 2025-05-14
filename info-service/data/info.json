@@ -1,0 +1,28 @@
+{
+    "company": {
+        "mission": "Wir bieten gesunde und nachhaltige Lebensmittel, die direkt zu Ihnen nach Hause geliefert werden. Unser Ziel ist es, eine bessere Zukunft für Ernährung und Umwelt zu schaffen. Erleben Sie den Unterschied mit frischen, lokal produzierten Zutaten – jeden Tag.",
+        "vision": "SwissSuplements ist mehr als nur ein Lebensmittel-Lieferdienst. Wir setzen auf Nachhaltigkeit, Qualität und Frische – direkt aus der Region."
+    },
+    "team": [
+        {
+            "name": "Timo Weber",
+            "role": "Health Manager",
+            "image": "/pic/member1.png"
+        },
+        {
+            "name": "VinDePrinz",
+            "role": "Health Manager",
+            "image": "/pic/member2.png"
+        },
+        {
+            "name": "TiBeWe",
+            "role": "Health Manager",
+            "image": "/pic/member3.png"
+        },
+        {
+            "name": "KenyBoy",
+            "role": "Health Manager",
+            "image": "/pic/member4.png"
+        }
+    ]
+}
