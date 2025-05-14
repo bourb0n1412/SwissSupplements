@@ -5,5 +5,78 @@ on:
     branches:
       - main
   pull_request:
-    branches:
-      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:20.10.7
+        options: --privileged
+
+    strategy:
+      matrix:
+        service:
+          - shop
+          - about
+          - eureka
+          - gateway
+          - recommend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java for Shop/Eureka
+        if: matrix.service == 'shop' || matrix.service == 'eureka'
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "temurin"
+
+      - name: Set up Node.js for About/Gateway
+        if: matrix.service == 'about' || matrix.service == 'gateway'
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Set up Python for Recommend
+        if: matrix.service == 'recommend'
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install & Start Shop (Spring Boot)
+        if: matrix.service == 'shop'
+        run: |
+          cd shop
+          ./mvnw install
+          nohup ./mvnw spring-boot:run &
+
+      - name: Install & Start About (Node.js)
+        if: matrix.service == 'about'
+        run: |
+          cd about
+          npm install
+          nohup node index.js &
+
+      - name: Start Eureka Server
+        if: matrix.service == 'eureka'
+        run: |
+          cd eureka
+          ./mvnw install
+          nohup ./mvnw spring-boot:run &
+
+      - name: Install & Start Gateway (Node.js)
+        if: matrix.service == 'gateway'
+        run: |
+          cd gateway
+          npm install
+          nohup node index.js &
+
+      - name: Install & Start Recommend (Flask)
+        if: matrix.service == 'recommend'
+        run: |
+          cd recommend
+          pip install -r requirements.txt
+          nohup python recommend.py &
